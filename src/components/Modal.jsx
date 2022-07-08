@@ -33,7 +33,7 @@ export function Modal({children, onClose}) {
   return createPortal(
     <Backdrop onClick={handleBackBackdropClick}>
         <ModalContent>
-            <IconButton sx={stylingModalIconBtn} onClick={handleBackBackdropClick} aria-label="delete">
+            <IconButton sx={stylingModalIconBtn} onClick={onClose} aria-label="delete">
                 <CloseIcon />
             </IconButton>
             {children}
