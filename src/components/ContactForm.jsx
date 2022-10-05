@@ -1,22 +1,29 @@
-import { useForm } from "react-hook-form";
-import React from "react";
+import { useForm } from 'react-hook-form';
+import React from 'react';
 import { TextField, Button, styled } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import * as yup from 'yup';
 import PropTypes from 'prop-types';
 
 import { LabelContainer, ErrorText, Form, FormHeader } from './Contacts.styled';
 
 require('yup-phone');
 
-const schema = yup.object({
-  name: yup.string().max(20).min(3).required(),
-  number: yup.string().phone().required(),
-}).required();
+const schema = yup
+  .object({
+    name: yup.string().max(20).min(3).required(),
+    number: yup.string().max(7).min(7).required(),
+  })
+  .required();
 
-export default function ContactForm ({formSubmit, onClick}){
-  const { register, handleSubmit, reset, formState:{ errors } } = useForm({resolver: yupResolver(schema)});
+export default function ContactForm({ formSubmit, onClick }) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = data => {
     formSubmit(data);
@@ -28,17 +35,32 @@ export default function ContactForm ({formSubmit, onClick}){
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader>Add Contact</FormHeader>
       <LabelContainer>
-        <ValidationTextField {...register("name")} label={errors.number ? 'Text Valid Name' : "Text Name"} />
+        <ValidationTextField
+          {...register('name')}
+          label={errors.number ? 'Text Valid Name' : 'Text Name'}
+        />
         <ErrorText>{errors.name?.message}</ErrorText>
       </LabelContainer>
       <LabelContainer>
-        <ValidationTextField type="number" {...register("number")} label={errors.number ? 'Text Valid Number' : "Text Number"} color="primary"/>
-        <ErrorText>{errors.number?.message}</ErrorText>        
+        <ValidationTextField
+          type="number"
+          {...register('number')}
+          label={errors.number ? 'Text Valid Number' : 'Text Number'}
+          color="primary"
+        />
+        <ErrorText>{errors.number?.message}</ErrorText>
       </LabelContainer>
-      <Button variant="contained" size='large' endIcon={<SendIcon />} type="submit">Add Contact</Button>
+      <Button
+        variant="contained"
+        size="large"
+        endIcon={<SendIcon />}
+        type="submit"
+      >
+        Add Contact
+      </Button>
     </Form>
   );
-};
+}
 
 ContactForm.propTypes = {
   formSubmit: PropTypes.func.isRequired,
@@ -46,11 +68,11 @@ ContactForm.propTypes = {
 };
 
 const ValidationTextField = styled(TextField)(() => {
-  return ({ 
-  '& input:valid + fieldset': {  
+  return {
+    '& input:valid + fieldset': {
       borderColor: 'green',
-      color: 'green',        
-      borderWidth: 2,    
+      color: 'green',
+      borderWidth: 2,
     },
     '& input:invalid + fieldset': {
       borderColor: 'red',
@@ -62,4 +84,5 @@ const ValidationTextField = styled(TextField)(() => {
       borderColor: 'blue',
       color: 'blue',
     },
-})})
+  };
+});
